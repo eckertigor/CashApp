@@ -6,6 +6,8 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParseException;
+import com.google.gson.JsonSyntaxException;
 
 
 public class MyStorage {
@@ -46,7 +48,12 @@ public class MyStorage {
     }
 
     static MoneyCurrency deserialaze(String json) {
-        return gson.fromJson(json, MoneyCurrency.class);
+        try {
+            return gson.fromJson(json, MoneyCurrency.class);
+        } catch (JsonSyntaxException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     static String serialize(MoneyCurrency moneyCurrency) {
