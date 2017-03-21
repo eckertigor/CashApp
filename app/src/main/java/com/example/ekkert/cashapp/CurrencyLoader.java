@@ -8,9 +8,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-/**
- * Created by ekkert on 21.03.17.
- */
+
 public class CurrencyLoader {
     private final OkHttpClient httpClient = new OkHttpClient();
     private final static String TAG = CurrencyLoader.class.getSimpleName();
@@ -27,9 +25,7 @@ public class CurrencyLoader {
             if(!response.isSuccessful()) {
                 throw new IOException("Wrong status: " + response.code() + "; body: " + response.body().string());
             }
-            Log.d(TAG, response.body().string());
-            moneyCurrency = MyStorage.fromAnswer(response.body().string());
-            Log.d(TAG, moneyCurrency.toString());
+            moneyCurrency = MyStorage.deserialaze(response.body().string());
         } finally {
             response.body().close();
         }

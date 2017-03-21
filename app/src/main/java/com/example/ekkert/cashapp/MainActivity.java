@@ -48,7 +48,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         Log.d(TAG, "onStart");
-
         broadcastReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
@@ -64,6 +63,7 @@ public class MainActivity extends AppCompatActivity {
         intentFilter.addAction(ACTION_NEW_CURRENCY);
         intentFilter.addAction(ACTION_ERROR);
         registerReceiver(broadcastReceiver, intentFilter);
+        printCurrency();
         loadCurrency();
     }
 
@@ -89,18 +89,21 @@ public class MainActivity extends AppCompatActivity {
     private void printCurrency() {
         MoneyCurrency moneyCurrency = MyStorage.getInstance(this).getLastSavedCurrency();
         String currencyValue;
+        String currency;
         if (moneyCurrency == null) {
             currencyValue = "error";
+            currency = "error";
         } else {
             currencyValue = moneyCurrency.getValue();
+            currency = moneyCurrency.getCurrency();
         }
         ((TextView) findViewById(R.id.textView)).setText(currencyValue);
-
-
+        ((TextView) findViewById(R.id.textView3)).setText(currency);
+        ((TextView) findViewById(R.id.textView4)).setText("");
     }
 
     private void printError() {
-        ((TextView) findViewById(R.id.textView)).setText("error");
+        ((TextView) findViewById(R.id.textView4)).setText("Извините, соединение недоступно");
     }
 
     private void loadCurrency() {
